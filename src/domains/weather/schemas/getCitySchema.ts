@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { weatherHeaderSchema } from './weatherHeaderSchema';
+import { WeatherHeaderSchema } from './weatherHeaderSchema';
 
 export const GetCityParams = z.object({
   city: z.string().nonempty(),
@@ -7,7 +7,7 @@ export const GetCityParams = z.object({
 
 export const GetCitySchema = z.object({
   params: GetCityParams,
-  headers: weatherHeaderSchema,
+  headers: WeatherHeaderSchema,
 });
 
 export type GetCityReq = z.infer<typeof GetCitySchema>;
