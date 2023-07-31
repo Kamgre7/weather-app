@@ -6,7 +6,7 @@ export type DailyWeatherApiResponse = {
   timezone: string;
   tzoffset: number;
   description: string;
-  days: [DayInformation];
+  days: DayInformation[];
 };
 
 export type DayInformation = {
