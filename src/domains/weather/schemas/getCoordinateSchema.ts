@@ -1,18 +1,10 @@
 import { z } from 'zod';
 import { WeatherHeaderSchema } from './weatherHeaderSchema';
-import { validateLat, validateLon } from '../../../utils/validateCoordinates';
+import { LatSchema, LonSchema } from './coordinateSchema';
 
 export const GetCoordinateParams = z.object({
-  lat: z
-    .string()
-    .nonempty()
-    .refine((value) => validateLat(value))
-    .transform((value) => parseFloat(value)),
-  lon: z
-    .string()
-    .nonempty()
-    .refine((value) => validateLon(value))
-    .transform((value) => parseFloat(value)),
+  lat: LatSchema,
+  lon: LonSchema,
 });
 
 export const GetCoordinateSchema = z.object({

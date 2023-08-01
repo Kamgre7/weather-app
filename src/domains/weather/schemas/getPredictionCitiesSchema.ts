@@ -1,23 +1,15 @@
 import { z } from 'zod';
 import { WeatherHeaderSchema } from './weatherHeaderSchema';
-import {
-  dateIsGraterThanCurrentDate,
-  validateRangeOfDate,
-} from '../../../utils/validateDates';
+import { validateRangeOfDate } from '../../../utils/validateDates';
+import { PredictionDateSchema } from './predictionDateSchema';
 
 export const GetPredictionCitiesParams = z.object({
   city: z.string().nonempty(),
 });
 
 export const GetPredictionCitiesQuery = z.object({
-  from: z
-    .string()
-    .nonempty()
-    .refine((date) => dateIsGraterThanCurrentDate(date)),
-  to: z
-    .string()
-    .nonempty()
-    .refine((date) => dateIsGraterThanCurrentDate(date)),
+  from: PredictionDateSchema,
+  to: PredictionDateSchema,
 });
 
 export const GetPredictionCitiesSchema = z.object({

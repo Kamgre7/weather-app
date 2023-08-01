@@ -1,12 +1,9 @@
 import { z } from 'zod';
 import { WeatherHeaderSchema } from './weatherHeaderSchema';
-import { dateIsGraterThanCurrentDate } from '../../../utils/validateDates';
+import { PredictionDateSchema } from './predictionDateSchema';
 
 export const GetPredictionDayCityParams = z.object({
-  day: z
-    .string()
-    .nonempty()
-    .refine((date) => dateIsGraterThanCurrentDate(date)),
+  day: PredictionDateSchema,
   city: z.string().nonempty(),
 });
 
