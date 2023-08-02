@@ -1,10 +1,13 @@
 import { z } from 'zod';
-import { WeatherHeaderSchema } from './weatherHeaderSchema';
 import { validateRangeOfDate } from '../../../utils/validateDates';
-import { PredictionDateSchema } from './predictionDateSchema';
+import {
+  CitySchema,
+  PredictionDateSchema,
+  WeatherHeaderSchema,
+} from './utilsSchemas';
 
 export const GetPredictionCitiesParams = z.object({
-  city: z.string().nonempty(),
+  city: CitySchema,
 });
 
 export const GetPredictionCitiesQuery = z.object({

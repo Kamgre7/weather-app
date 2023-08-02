@@ -1,6 +1,5 @@
 import { z } from 'zod';
-import { WeatherHeaderSchema } from './weatherHeaderSchema';
-import { LatSchema, LonSchema } from './coordinateSchema';
+import { LatSchema, LonSchema, WeatherHeaderSchema } from './utilsSchemas';
 
 export const GetCoordinateParams = z.object({
   lat: LatSchema,

@@ -1,8 +1,11 @@
 import { z } from 'zod';
-import { WeatherHeaderSchema } from './weatherHeaderSchema';
 import { validateRangeOfDate } from '../../../utils/validateDates';
-import { LatSchema, LonSchema } from './coordinateSchema';
-import { PredictionDateSchema } from './predictionDateSchema';
+import {
+  LatSchema,
+  LonSchema,
+  PredictionDateSchema,
+  WeatherHeaderSchema,
+} from './utilsSchemas';
 
 export const GetPredictionLocationParams = z.object({
   lat: LatSchema,
