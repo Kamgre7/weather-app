@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { validateRangeOfDate } from '../../../utils/validateDates';
 import {
   CitySchema,
   PredictionDateSchema,
   WeatherHeaderSchema,
+  validateRangeOfDate,
 } from './utilsSchemas';
 
 export const GetPredictionCitiesParams = z.object({
