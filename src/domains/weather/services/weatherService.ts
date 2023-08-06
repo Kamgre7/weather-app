@@ -1,48 +1,36 @@
-import { DailyWeatherApiResponse } from '../types/weatherApi';
-import { FromToDates } from '../controllers/weatherController';
-import { IWeatherApi, weatherApi } from '../api/weatherApi';
-
-export type Coordinates = {
-  lat: number;
-  lon: number;
-};
+import { IWeatherApiAdapter, weatherApi } from '../adapters/weatherApiAdapter';
+import { Weather } from '../schemas/weatherApiSchema';
+import { Coordinates, FromToDate } from '../schemas/utilsSchemas';
 
 export interface IWeatherService {
-  getByCity(city: string, key: string): Promise<DailyWeatherApiResponse>;
-  getByCoordinates(
-    coordinates: Coordinates,
-    key: string
-  ): Promise<DailyWeatherApiResponse>;
-  getByDayAndCity(
-    day: string,
-    city: string,
-    key: string
-  ): Promise<DailyWeatherApiResponse>;
+  getByCity(city: string, key: string): Promise<Weather>;
+  getByCoordinates(coordinates: Coordinates, key: string): Promise<Weather>;
+  getByDayAndCity(day: string, city: string, key: string): Promise<Weather>;
   getByDatesAndCity(
-    fromTo: FromToDates,
+    fromTo: FromToDate,
     city: string,
     key: string
-  ): Promise<DailyWeatherApiResponse>;
+  ): Promise<Weather>;
   getByDatesAndCoordinates(
-    fromToDate: FromToDates,
+    fromToDate: FromToDate,
     coordinates: Coordinates,
     key: string
-  ): Promise<DailyWeatherApiResponse>;
+  ): Promise<Weather>;
 }
 
 export class WeatherService implements IWeatherService {
-  constructor(private readonly weatherApi: IWeatherApi) {}
+  constructor(private readonly weatherApi: IWeatherApiAdapter) {}
 
-  async getByCity(city: string, key: string): Promise<DailyWeatherApiResponse> {
+  async getByCity(city: string, key: string): Promise<Weather> {
     const encodedCity = encodeURIComponent(city);
 
-    return await this.weatherApi.getByCity(encodedCity, key);
+    return await this.weatherApi.getByDayAndCity(encodedCity, key);
   }
 
   async getByCoordinates(
     coordinates: Coordinates,
     key: string
-  ): Promise<DailyWeatherApiResponse> {
+  ): Promise<Weather> {
     return this.weatherApi.getByCoordinates(coordinates, key);
   }
 
@@ -50,27 +38,27 @@ export class WeatherService implements IWeatherService {
     day: string,
     city: string,
     key: string
-  ): Promise<DailyWeatherApiResponse> {
+  ): Promise<Weather> {
     const encodedCity = encodeURIComponent(city);
 
-    return await this.weatherApi.getByDayAndCity(day, encodedCity, key);
+    return await this.weatherApi.getByDayAndCity(encodedCity, key, day);
   }
 
   async getByDatesAndCity(
-    fromTo: FromToDates,
+    fromTo: FromToDate,
     city: string,
     key: string
-  ): Promise<DailyWeatherApiResponse> {
+  ): Promise<Weather> {
     const encodedCity = encodeURIComponent(city);
 
     return await this.weatherApi.getByDatesAndCity(fromTo, encodedCity, key);
   }
 
   async getByDatesAndCoordinates(
-    fromToDate: FromToDates,
+    fromToDate: FromToDate,
     coordinates: Coordinates,
     key: string
-  ): Promise<DailyWeatherApiResponse> {
+  ): Promise<Weather> {
     return this.weatherApi.getByDatesAndCoordinates(
       fromToDate,
       coordinates,
