@@ -19,10 +19,24 @@ export const LonSchema = z
   .refine((value) => validateLon(value))
   .transform((value) => parseFloat(value));
 
+export const CoordinateSchema = z.object({
+  lat: LatSchema,
+  lon: LonSchema,
+});
+
+export type Coordinates = z.infer<typeof CoordinateSchema>;
+
 export const PredictionDateSchema = z
   .string()
   .nonempty()
   .refine((date) => dateIsGraterThanCurrentDate(date));
+
+export const DateSchema = z.object({
+  from: PredictionDateSchema,
+  to: PredictionDateSchema,
+});
+
+export type FromToDate = z.infer<typeof DateSchema>;
 
 export const WeatherHeaderSchema = z.object({
   'x-weather-api-key': z.string().nonempty(),
