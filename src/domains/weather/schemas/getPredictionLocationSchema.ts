@@ -1,28 +1,15 @@
 import { z } from 'zod';
 import {
-  LatSchema,
-  LonSchema,
-  PredictionDateSchema,
-  WeatherHeaderSchema,
+  CoordinateSchema,
+  DateSchema,
   validateRangeOfDate,
 } from './utilsSchemas';
 
-export const GetPredictionLocationParams = z.object({
-  lat: LatSchema,
-  lon: LonSchema,
-});
-
-export const GetPredictionLocationQuery = z.object({
-  from: PredictionDateSchema,
-  to: PredictionDateSchema,
-});
-
 export const GetPredictionLocationSchema = z.object({
-  params: GetPredictionLocationParams,
-  query: GetPredictionLocationQuery.refine((value) =>
+  params: CoordinateSchema,
+  query: DateSchema.refine((value) =>
     validateRangeOfDate(value.from, value.to)
   ),
-  headers: WeatherHeaderSchema,
 });
 
 export type GetPredictionLocationReq = z.infer<

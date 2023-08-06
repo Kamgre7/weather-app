@@ -1,14 +1,8 @@
 import { z } from 'zod';
-import { LatSchema, LonSchema, WeatherHeaderSchema } from './utilsSchemas';
-
-export const GetCoordinateParams = z.object({
-  lat: LatSchema,
-  lon: LonSchema,
-});
+import { CoordinateSchema } from './utilsSchemas';
 
 export const GetCoordinateSchema = z.object({
-  params: GetCoordinateParams,
-  headers: WeatherHeaderSchema,
+  params: CoordinateSchema,
 });
 
 export type GetCoordinateReq = z.infer<typeof GetCoordinateSchema>;
