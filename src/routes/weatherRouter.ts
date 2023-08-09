@@ -1,51 +1,51 @@
 import { Router } from 'express';
 import { weatherCityController } from '../domains/weather/controllers/weatherController';
-import { validateReq } from '../middlewares/validateReq';
+import { requestValidator } from '../middlewares/validateReq';
 import { GetCitySchema } from '../domains/weather/schemas/getCitySchema';
 import { GetCoordinateSchema } from '../domains/weather/schemas/getCoordinateSchema';
 import { GetPredictionCitiesSchema } from '../domains/weather/schemas/getPredictionCitiesSchema';
 import { GetPredictionLocationSchema } from '../domains/weather/schemas/getPredictionLocationSchema';
 import { GetPredictionDayCitySchema } from '../domains/weather/schemas/getPredictionDayCitySchema';
-import { weatherApiKeyMiddleware } from '../middlewares/weatherApiKeyMiddleware';
+import { weatherApiKeyValidator } from '../middlewares/weatherApiKeyMiddleware';
 
 export const weatherRouter = Router();
 
 weatherRouter
   .route('/cities/:city')
   .get(
-    weatherApiKeyMiddleware,
-    validateReq(GetCitySchema),
+    weatherApiKeyValidator,
+    requestValidator(GetCitySchema),
     weatherCityController.getCity
   );
 
 weatherRouter
-  .route('/locations/:lat/:lon')
+  .route('/coordinates/:lat/:lon')
   .get(
-    weatherApiKeyMiddleware,
-    validateReq(GetCoordinateSchema),
+    weatherApiKeyValidator,
+    requestValidator(GetCoordinateSchema),
     weatherCityController.getByCoordinates
   );
 
 weatherRouter
-  .route('/prediction/cities/:city')
+  .route('/cities/:city/prediction')
   .get(
-    weatherApiKeyMiddleware,
-    validateReq(GetPredictionCitiesSchema),
+    weatherApiKeyValidator,
+    requestValidator(GetPredictionCitiesSchema),
     weatherCityController.getPredictionByDatesAndCity
   );
 
 weatherRouter
-  .route('/prediction/coordinates/:lat/:lon')
+  .route('/coordinates/:lat/:lon/prediction')
   .get(
-    weatherApiKeyMiddleware,
-    validateReq(GetPredictionLocationSchema),
+    weatherApiKeyValidator,
+    requestValidator(GetPredictionLocationSchema),
     weatherCityController.getPredictionByDatesAndCoordinates
   );
 
 weatherRouter
-  .route('/prediction/:day/:city')
+  .route('/cities/:city/prediction/:day')
   .get(
-    weatherApiKeyMiddleware,
-    validateReq(GetPredictionDayCitySchema),
+    weatherApiKeyValidator,
+    requestValidator(GetPredictionDayCitySchema),
     weatherCityController.getPredictionByDayAndCity
   );
