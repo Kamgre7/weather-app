@@ -1,18 +1,18 @@
 import { IWeatherApiAdapter, weatherApi } from '../adapters/weatherApiAdapter';
 import { Weather } from '../schemas/weatherApiSchema';
-import { Coordinates, FromToDate } from '../schemas/utilsSchemas';
+import { Coordinates, DateRange } from '../schemas/utilsSchemas';
 
 export interface IWeatherService {
   getByCity(city: string, key: string): Promise<Weather>;
   getByCoordinates(coordinates: Coordinates, key: string): Promise<Weather>;
   getByDayAndCity(day: string, city: string, key: string): Promise<Weather>;
   getByDatesAndCity(
-    fromTo: FromToDate,
+    dataRange: DateRange,
     city: string,
     key: string
   ): Promise<Weather>;
   getByDatesAndCoordinates(
-    fromToDate: FromToDate,
+    dateRange: DateRange,
     coordinates: Coordinates,
     key: string
   ): Promise<Weather>;
@@ -45,22 +45,22 @@ export class WeatherService implements IWeatherService {
   }
 
   async getByDatesAndCity(
-    fromTo: FromToDate,
+    dateRange: DateRange,
     city: string,
     key: string
   ): Promise<Weather> {
     const encodedCity = encodeURIComponent(city);
 
-    return await this.weatherApi.getByDatesAndCity(fromTo, encodedCity, key);
+    return await this.weatherApi.getByDatesAndCity(dateRange, encodedCity, key);
   }
 
   async getByDatesAndCoordinates(
-    fromToDate: FromToDate,
+    dateRange: DateRange,
     coordinates: Coordinates,
     key: string
   ): Promise<Weather> {
     return this.weatherApi.getByDatesAndCoordinates(
-      fromToDate,
+      dateRange,
       coordinates,
       key
     );

@@ -1,18 +1,18 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { weatherHttpClient } from '../../../httpClient/weatherHttpClient';
 import { Weather, WeatherSchema } from '../schemas/weatherApiSchema';
-import { Coordinates, FromToDate } from '../schemas/utilsSchemas';
+import { Coordinates, DateRange } from '../schemas/utilsSchemas';
 
 export interface IWeatherApiAdapter {
   getByCoordinates(coordinates: Coordinates, key: string): Promise<Weather>;
   getByDayAndCity(city: string, key: string, day?: string): Promise<Weather>;
   getByDatesAndCity(
-    fromTo: FromToDate,
+    dateRange: DateRange,
     city: string,
     key: string
   ): Promise<Weather>;
   getByDatesAndCoordinates(
-    fromToDate: FromToDate,
+    dateRange: DateRange,
     coordinates: Coordinates,
     key: string
   ): Promise<Weather>;
@@ -69,13 +69,13 @@ export class WeatherApiAdapter implements IWeatherApiAdapter {
   }
 
   async getByDatesAndCity(
-    fromTo: FromToDate,
+    dateRange: DateRange,
     city: string,
     key: string
   ): Promise<Weather> {
     try {
       const response: AxiosResponse<Weather> = await this.weatherHttpClient.get(
-        `${city}/${fromTo.from}/${fromTo.to}`,
+        `${city}/${dateRange.from}/${dateRange.to}`,
         {
           params: {
             unitGroup: 'metric',
@@ -92,13 +92,13 @@ export class WeatherApiAdapter implements IWeatherApiAdapter {
   }
 
   async getByDatesAndCoordinates(
-    fromToDate: FromToDate,
+    dateRange: DateRange,
     coordinates: Coordinates,
     key: string
   ): Promise<Weather> {
     try {
       const response: AxiosResponse<Weather> = await this.weatherHttpClient.get(
-        `${coordinates.lat},${coordinates.lon}/${fromToDate.from}/${fromToDate.to}`,
+        `${coordinates.lat},${coordinates.lon}/${dateRange.from}/${dateRange.to}`,
         {
           params: {
             unitGroup: 'metric',

@@ -63,12 +63,12 @@ export class WeatherCityController implements IWeatherCityController {
     req: Request,
     res: Response
   ): Promise<void> => {
-    const fromToDate = DateSchema.parse(req.query);
+    const dateRange = DateSchema.parse(req.query);
     const { city } = GetPredictionCitiesParams.parse(req.params);
     const weatherApiKey: string = res.locals.weatherApiKey;
 
     const result = await this.weatherService.getByDatesAndCity(
-      fromToDate,
+      dateRange,
       city,
       weatherApiKey
     );
@@ -80,7 +80,7 @@ export class WeatherCityController implements IWeatherCityController {
     req: Request,
     res: Response
   ): Promise<void> => {
-    const fromToDate = DateSchema.parse(req.query);
+    const dateRange = DateSchema.parse(req.query);
     const coordinates = CoordinateSchema.parse({
       lat: req.params.lat,
       lon: req.params.lon,
@@ -88,7 +88,7 @@ export class WeatherCityController implements IWeatherCityController {
     const weatherApiKey: string = res.locals.weatherApiKey;
 
     const result = await this.weatherService.getByDatesAndCoordinates(
-      fromToDate,
+      dateRange,
       coordinates,
       weatherApiKey
     );
