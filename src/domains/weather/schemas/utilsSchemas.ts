@@ -36,7 +36,7 @@ export const DateSchema = z.object({
   to: PredictionDateSchema,
 });
 
-export type FromToDate = z.infer<typeof DateSchema>;
+export type DateRange = z.infer<typeof DateSchema>;
 
 export const WeatherHeaderSchema = z.object({
   'x-weather-api-key': z.string().nonempty(),
