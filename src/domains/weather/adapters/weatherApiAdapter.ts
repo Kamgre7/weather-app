@@ -1,7 +1,9 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
 import { weatherHttpClient } from '../../../httpClient/weatherHttpClient';
 import { Weather, WeatherSchema } from '../schemas/weatherApiSchema';
 import { Coordinates, DateRange } from '../schemas/utilsSchemas';
+import { BadRequestError } from '../../../errors/BadRequestError';
+import { AppError } from '../../../errors/AppError';
 
 export interface IWeatherApiAdapter {
   getByCoordinates(coordinates: Coordinates, key: string): Promise<Weather>;
@@ -42,7 +44,7 @@ export class WeatherApiAdapter implements IWeatherApiAdapter {
 
       return WeatherSchema.parse(response.data);
     } catch (error) {
-      throw error;
+      throw this.mapToAppError(error);
     }
   }
 
@@ -64,7 +66,7 @@ export class WeatherApiAdapter implements IWeatherApiAdapter {
 
       return WeatherSchema.parse(response.data);
     } catch (error) {
-      throw error;
+      throw this.mapToAppError(error);
     }
   }
 
@@ -87,7 +89,7 @@ export class WeatherApiAdapter implements IWeatherApiAdapter {
 
       return WeatherSchema.parse(response.data);
     } catch (error) {
-      throw error;
+      throw this.mapToAppError(error);
     }
   }
 
@@ -110,8 +112,14 @@ export class WeatherApiAdapter implements IWeatherApiAdapter {
 
       return WeatherSchema.parse(response.data);
     } catch (error) {
-      throw error;
+      throw this.mapToAppError(error);
     }
+  }
+
+  private mapToAppError(error: unknown): AppError {
+    return isAxiosError(error) && error.response
+      ? new BadRequestError(error.message, error.response.status)
+      : new AppError('Something went wrong', 500);
   }
 }
 
