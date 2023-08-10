@@ -61,7 +61,7 @@ $ npm run start
 #### Get a weather for current date for a specific location
 
 ```http
-  GET /weather/locations/:lat/:lon
+  GET /weather/coordinates/:lat/:lon
 ```
 
 | Parameter | Type     | Description              |
@@ -73,7 +73,7 @@ $ npm run start
 #### Get weather data for a specific date
 
 ```http
-  GET /weather/prediction/:day/:city
+  GET /weather/cities/:city/prediction/:day
 ```
 
 | Parameter | Type     | Description |
@@ -85,7 +85,7 @@ $ npm run start
 #### Get a weather data for a specific city and specific data range. Accept as query params: from, to
 
 ```http
-  GET /weather/prediction/cities/:city?from=yyyy-mm-ddd&to=yyyy-mm-dd
+  GET /weather/cities/:city/prediction?from=yyyy-mm-ddd&to=yyyy-mm-dd
 ```
 
 | Parameter | Type     | Description |
@@ -96,7 +96,7 @@ $ npm run start
 #### Get a weather data for a specific location and specific data range. Accept as query params: from, to
 
 ```http
-  GET /weather/prediction/coordinates/:lat/:lon?from=yyyy-mm-ddd&to=yyyy-mm-dd
+  GET /weather/coordinates/:lat/:lon/prediction?from=yyyy-mm-ddd&to=yyyy-mm-dd
 ```
 
 | Parameter | Type     | Description              |

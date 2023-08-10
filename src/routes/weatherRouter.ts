@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { weatherCityController } from '../domains/weather/controllers/weatherController';
-import { requestValidator } from '../middlewares/validateReq';
+import { requestValidator } from '../middlewares/requestValidator';
 import { GetCitySchema } from '../domains/weather/schemas/getCitySchema';
 import { GetCoordinateSchema } from '../domains/weather/schemas/getCoordinateSchema';
 import { GetPredictionCitiesSchema } from '../domains/weather/schemas/getPredictionCitiesSchema';
 import { GetPredictionLocationSchema } from '../domains/weather/schemas/getPredictionLocationSchema';
 import { GetPredictionDayCitySchema } from '../domains/weather/schemas/getPredictionDayCitySchema';
-import { weatherApiKeyValidator } from '../middlewares/weatherApiKeyMiddleware';
+import { weatherApiKeyValidator } from '../middlewares/weatherApiKeyValidator';
 
 export const weatherRouter = Router();
 
