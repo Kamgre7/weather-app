@@ -1,5 +1,6 @@
 import { GetPredictionLocationSchema } from '../schemas/getPredictionLocationSchema';
 import { CoordinateSchema } from '../schemas/utilsSchemas';
+import { getFutureDateString } from './utils';
 
 describe('Prediction location schema', () => {
   let predictionLocationParams: {
@@ -17,10 +18,8 @@ describe('Prediction location schema', () => {
     query: typeof dateRange;
   };
 
-  let tomorrowDate: Date;
-  let tomorrowStringType: string;
-  let tenDaysLaterDate: Date;
-  let tenDaysLaterStringType: string;
+  let tomorrowDate: string;
+  let tenDaysLaterDate: string;
 
   beforeEach(() => {
     predictionLocationParams = {
@@ -28,17 +27,12 @@ describe('Prediction location schema', () => {
       lon: '100',
     };
 
-    tomorrowDate = new Date();
-    tomorrowDate.setDate(new Date().getDate() + 1);
-    tomorrowStringType = tomorrowDate.toISOString().split('T')[0];
-
-    tenDaysLaterDate = new Date();
-    tenDaysLaterDate.setDate(new Date().getDate() + 10);
-    tenDaysLaterStringType = tenDaysLaterDate.toISOString().split('T')[0];
+    tomorrowDate = getFutureDateString(1);
+    tenDaysLaterDate = getFutureDateString(10);
 
     dateRange = {
-      from: tomorrowStringType,
-      to: tenDaysLaterStringType,
+      from: tomorrowDate,
+      to: tenDaysLaterDate,
     };
 
     getPredictionLocation = {
@@ -103,8 +97,8 @@ describe('Prediction location schema', () => {
     });
 
     it('Should return false - query date from is grater than range to date', () => {
-      getPredictionLocation.query.from = tenDaysLaterStringType;
-      getPredictionLocation.query.to = tomorrowStringType;
+      getPredictionLocation.query.from = tenDaysLaterDate;
+      getPredictionLocation.query.to = tomorrowDate;
 
       const predictionLocation = GetPredictionLocationSchema.safeParse(
         getPredictionLocation

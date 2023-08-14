@@ -2,6 +2,7 @@ import {
   GetPredictionCitiesParams,
   GetPredictionCitiesSchema,
 } from '../schemas/getPredictionCitiesSchema';
+import { getFutureDateString } from './utils';
 
 describe('Prediction cities schema', () => {
   let predictionCitiesParams: {
@@ -18,27 +19,20 @@ describe('Prediction cities schema', () => {
     query: typeof dateRange;
   };
 
-  let tomorrowDate: Date;
-  let tomorrowStringType: string;
-  let tenDaysLaterDate: Date;
-  let tenDaysLaterStringType: string;
+  let tomorrowDate: string;
+  let tenDaysLaterDate: string;
 
   beforeEach(() => {
     predictionCitiesParams = {
       city: 'London',
     };
 
-    tomorrowDate = new Date();
-    tomorrowDate.setDate(new Date().getDate() + 1);
-    tomorrowStringType = tomorrowDate.toISOString().split('T')[0];
-
-    tenDaysLaterDate = new Date();
-    tenDaysLaterDate.setDate(new Date().getDate() + 10);
-    tenDaysLaterStringType = tenDaysLaterDate.toISOString().split('T')[0];
+    tomorrowDate = getFutureDateString(1);
+    tenDaysLaterDate = getFutureDateString(10);
 
     dateRange = {
-      from: tomorrowStringType,
-      to: tenDaysLaterStringType,
+      from: tomorrowDate,
+      to: tenDaysLaterDate,
     };
 
     getPredictionCities = {
@@ -90,8 +84,8 @@ describe('Prediction cities schema', () => {
     });
 
     it('Should return false - query date from is grater than range to date', () => {
-      getPredictionCities.query.from = tenDaysLaterStringType;
-      getPredictionCities.query.to = tomorrowStringType;
+      getPredictionCities.query.from = tenDaysLaterDate;
+      getPredictionCities.query.to = tomorrowDate;
 
       const predictionCity =
         GetPredictionCitiesSchema.safeParse(getPredictionCities);
