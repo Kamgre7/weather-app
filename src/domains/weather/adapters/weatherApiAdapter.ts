@@ -54,7 +54,7 @@ export class WeatherApiAdapter implements IWeatherApiAdapter {
   ): Promise<Weather> {
     try {
       const response: AxiosResponse<Weather> = await this.weatherHttpClient.get(
-        `${coordinates.lat}, ${coordinates.lon}/today`,
+        `${coordinates.lat},${coordinates.lon}/today`,
         {
           params: {
             unitGroup: 'metric',
