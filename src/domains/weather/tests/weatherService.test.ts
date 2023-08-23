@@ -1,4 +1,4 @@
-import nock, { Scope } from 'nock';
+import nock from 'nock';
 import {
   IWeatherApiAdapter,
   WeatherApiAdapter,
@@ -10,8 +10,7 @@ import { WeatherHttpClientSchema } from '../../../httpClient/weatherHttpClientSc
 import { getFutureDateString } from './utils';
 
 describe('Weather service', () => {
-  let testHttpClient: string;
-  let scope: Scope;
+  let baseURL: string;
   let weatherApiAdapter: IWeatherApiAdapter;
   let weatherService: IWeatherService;
   let queryString: {
@@ -29,9 +28,7 @@ describe('Weather service', () => {
   };
 
   beforeAll(() => {
-    testHttpClient = WeatherHttpClientSchema.parse(
-      process.env.TEST_WEATHER_HTTP_CLIENT
-    );
+    baseURL = WeatherHttpClientSchema.parse(process.env.TEST_WEATHER_BASE_URL);
 
     tomorrowDate = getFutureDateString(1);
     tenDaysLaterDate = getFutureDateString(10);
@@ -47,7 +44,7 @@ describe('Weather service', () => {
       contentType: 'json',
     };
 
-    scope = nock(testHttpClient)
+    nock(baseURL)
       //getByCity
       .get('/london/today')
       .query(queryString)
@@ -65,9 +62,7 @@ describe('Weather service', () => {
       .query(queryString)
       .reply(200, weatherApiData);
 
-    weatherApiAdapter = new WeatherApiAdapter(
-      axios.create({ baseURL: testHttpClient })
-    );
+    weatherApiAdapter = new WeatherApiAdapter(axios.create({ baseURL }));
 
     weatherService = new WeatherService(weatherApiAdapter);
   });
